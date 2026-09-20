@@ -44,6 +44,12 @@ Success response:
 
 Errors: `400` missing file / not an image, `500` classification failure.
 
+## Model
+
+The classifier model is trained in a separate repo: [commercial-sign-classifier-model-training](https://github.com/handleman/commercial-sign-classifier-model-training) (MobileNetV1 transfer learning, TF.js LayersModel export). The exported `model.json` + `weights.bin` are copied into `public/model/` here and served locally — training code and datasets live only in that repo.
+
+To update the model: retrain/export there, then copy the new `model.json` + `weights.bin` into `public/model/`. Keep the output class order aligned with `SIGN_TYPES` in `types/classification.ts`.
+
 ## Project Structure
 
 - `app/page.tsx` — home page, renders `ChatInterface`.
@@ -52,7 +58,7 @@ Errors: `400` missing file / not an image, `500` classification failure.
 - `app/api/classify/route.ts` — classification endpoint.
 - `lib/modelLoader.ts` — model loading, preprocessing, inference (server-only).
 - `types/classification.ts` — `SignType`, `SIGN_TYPES` order, labels.
-- `public/model/model.json` + `weights.bin` — committed TF.js model assets.
+- `public/model/model.json` + `weights.bin` — committed TF.js model assets, exported from the [model-training repo](https://github.com/handleman/commercial-sign-classifier-model-training).
 - `public/assets/<signType>.jpg` — reference images, filenames must match the snake_case `SignType` values.
 
 ## Notes for Contributors
