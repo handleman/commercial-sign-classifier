@@ -32,3 +32,4 @@ Flow: `app/components/ChatInterface.tsx` POSTs multipart form data (`image` fiel
 ## Design docs
 
 - On request, write design docs as markdown under `docs/design/` (kebab-case filenames).
+- When writing or reviewing a design doc, follow `.opencode/skills/architect/SKILL.md` (OpenCode loads it as the `architect` skill; other tools: read the file directly).
