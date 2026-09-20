@@ -30,3 +30,7 @@ Flow: `app/components/ChatInterface.tsx` POSTs multipart form data (`image` fiel
 - `public/model/` (`model.json`, `weights.bin`) and `public/assets/<signType>.jpg` reference images are committed assets. Asset filenames must exactly match the snake_case `SignType` values; the API builds `imageUrl` as `/assets/${signType}.jpg`.
 - No `.env` required; no `tsconfig.json` in repo.
 - Tailwind v4 via `@tailwindcss/postcss`.
+
+## Design docs
+
+- On request, write design docs as markdown under `docs/design/` (kebab-case filenames).

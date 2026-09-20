@@ -68,3 +68,7 @@ To update the model: retrain/export there, then copy the new `model.json` + `wei
 - `next.config.ts` externalizes `canvas`, uses `null-loader` for `node-pre-gyp` HTML/MD, and sets `images.unoptimized: true` — don't remove these.
 - Path alias `@/*` maps to the repo root; Tailwind v4 via `@tailwindcss/postcss`.
 - Agent instructions: this repo supports both **Claude Code (`CLAUDE.md`)** and **OpenCode (`AGENTS.md`)**. If you change one, mirror the change in the other — they must stay in sync.
+
+## TODO
+
+- [ ] Load the published model from its GitHub Release in the [model-training repo](https://github.com/handleman/commercial-sign-classifier-model-training) instead of manually copying `model.json` + `weights.bin` into `public/model/`.
