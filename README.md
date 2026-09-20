@@ -16,7 +16,7 @@ npm run dev      # http://localhost:3000 (uses --webpack flag, see below)
 | Command | Purpose |
 |---|---|
 | `npm run dev` | Dev server (`next dev --webpack`) |
-| `npm run build` | Production build |
+| `npm run build` | Production build (`next build --webpack`) |
 | `npm start` | Serve production build |
 | `npm run lint` | ESLint |
 
@@ -30,7 +30,7 @@ No test runner, no `.env` file, no extra services required.
    - Lazy-loads and caches the TF.js model from `public/model/` on first request (custom `tf.io.IOHandler` reading `model.json` + `weights.bin` from disk).
    - Preprocesses with Sharp: resize to 224×224, strip alpha, normalize pixels to 0–1, CPU-backend inference.
    - Argmax over the output maps to `SIGN_TYPES` order (`cabinet`, `channel_letter`, `flat_cut`, `post_panel`); confidence is × 100, rounded to 2 decimals by the API.
-4. The UI renders the result via `app/components/ClassificationResult.tsx`, including a reference photo from `public/assets/<signType>.jpg`.
+4. The UI renders the result via `app/components/ClassificationResult.tsx`, including the matching quadrant of the `public/assets/sign_types.jpg` reference sprite (CSS `background-position`, see `SPRITE_POSITIONS`).
 
 ### API
 
@@ -39,7 +39,7 @@ No test runner, no `.env` file, no extra services required.
 Success response:
 
 ```json
-{ "signType": "channel_letter", "confidence": 94.21, "imageUrl": "/assets/channel_letter.jpg" }
+{ "signType": "channel_letter", "confidence": 94.21, "imageUrl": "/assets/sign_types.jpg" }
 ```
 
 Errors: `400` missing file / not an image, `500` classification failure.
@@ -59,7 +59,7 @@ To update the model: retrain/export there, then copy the new `model.json` + `wei
 - `lib/modelLoader.ts` — model loading, preprocessing, inference (server-only).
 - `types/classification.ts` — `SignType`, `SIGN_TYPES` order, labels.
 - `public/model/model.json` + `weights.bin` — committed TF.js model assets, exported from the [model-training repo](https://github.com/handleman/commercial-sign-classifier-model-training).
-- `public/assets/<signType>.jpg` — reference images, filenames must match the snake_case `SignType` values.
+- `public/assets/sign_types.jpg` — committed 2×2 reference sprite (top-left `cabinet`, top-right `channel_letter`, bottom-left `flat_cut`, bottom-right `post_panel`). The API returns its URL for every result; the UI crops the matching quadrant.
 
 ## Notes for Contributors
 

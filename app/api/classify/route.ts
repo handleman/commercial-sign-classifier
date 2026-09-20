@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             signType,
             confidence: Math.round(confidence * 100) / 100,
-            imageUrl: `/assets/${signType}.jpg`,
+            imageUrl: '/assets/sign_types.jpg',
         });
     } catch (error) {
         console.error('Classification error:', error);

@@ -1,12 +1,19 @@
 'use client';
 
-import { ClassificationResult } from '@/types/classification';
+import { ClassificationResult, SignType } from '@/types/classification';
 import { SIGN_TYPE_LABELS } from '@/types/classification';
-import Image from 'next/image';
 
 interface ClassificationResultProps {
     result: ClassificationResult;
 }
+
+// Quadrant of the /assets/sign_types.jpg 2x2 sprite per sign type.
+const SPRITE_POSITIONS: Record<SignType, string> = {
+    cabinet: '0% 0%',
+    channel_letter: '100% 0%',
+    flat_cut: '0% 100%',
+    post_panel: '100% 100%',
+};
 
 export default function ClassificationResultComponent({ result }: ClassificationResultProps) {
     return (
@@ -34,15 +41,17 @@ export default function ClassificationResultComponent({ result }: Classification
 
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Reference Image:</p>
-                    <div className="relative w-full h-64 rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-md">
-                        <Image
-                            src={result.imageUrl}
-                            alt={`${SIGN_TYPE_LABELS[result.signType]} reference`}
-                            fill
-                            className="object-contain"
-                            priority
-                        />
-                    </div>
+                    <div
+                        role="img"
+                        aria-label={`${SIGN_TYPE_LABELS[result.signType]} reference`}
+                        className="w-full aspect-[643/416] rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-md"
+                        style={{
+                            backgroundImage: `url(${result.imageUrl})`,
+                            backgroundSize: '200% 200%',
+                            backgroundPosition: SPRITE_POSITIONS[result.signType],
+                            backgroundRepeat: 'no-repeat',
+                        }}
+                    />
                 </div>
             </div>
         </div>

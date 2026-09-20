@@ -5,7 +5,7 @@
 ## Commands
 
 - `npm run dev` — dev server. Script already includes `--webpack`; keep it (default Turbopack breaks the `sharp`/`canvas`/`null-loader` setup in `next.config.ts`).
-- `npm run build` / `npm start` — production build / serve.
+- `npm run build` / `npm start` — production build (script includes `--webpack`, same reason as dev) / serve.
 - `npm run lint` — ESLint (flat config, `next/core-web-vitals` + `next/typescript`). No test runner, no typecheck script, no CI.
 
 ## Architecture
@@ -24,9 +24,9 @@ Flow: `app/components/ChatInterface.tsx` POSTs multipart form data (`image` fiel
 ## Gotchas
 
 - `next.config.ts`: `sharp` is in `serverExternalPackages`, `canvas` is a server external, `null-loader` suppresses `node-pre-gyp` HTML/MD. `images.unoptimized: true`. Don't remove these to "simplify".
-- Path alias `@/*` → repo root.
-- `public/model/` (`model.json`, `weights.bin`) and `public/assets/<signType>.jpg` reference images are committed assets. Asset filenames must exactly match the snake_case `SignType` values; the API builds `imageUrl` as `/assets/${signType}.jpg`.
-- `README.md` describes setup and usage. No `.env` required; no `tsconfig.json` in repo.
+- Path alias `@/*` → repo root (via `tsconfig.json` `paths`; the build fails without it — do not delete).
+- `public/model/` (`model.json`, `weights.bin`) and `public/assets/sign_types.jpg` (2×2 reference sprite: TL `cabinet`, TR `channel_letter`, BL `flat_cut`, BR `post_panel`) are committed assets. The API returns the sprite URL for every result; `ClassificationResult.tsx` crops the matching quadrant via `SPRITE_POSITIONS` (`background-position`).
+- `README.md` describes setup and usage. No `.env` required.
 - Tailwind v4 via `@tailwindcss/postcss`.
 
 ## Design docs
